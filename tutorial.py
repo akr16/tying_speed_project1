@@ -1,5 +1,6 @@
 import curses
 from curses import wrapper
+import enum
 from multiprocessing.reduction import steal_handle
 from sys import stderr
 from textwrap import wrap
@@ -16,25 +17,21 @@ def start_screen(stdscr):
 
 
 def display_text(stdscr, target, current, wpm=0):
-    stdscr.addstr(target_test)
+    stdscr.addstr(target_text)
         
-    for char in current_text:
-        stdscr.addstr(char, curses.color_pair(1))
+    for i, char in enumerate(current_text):
+        stdscr.addstr(0, i, char, curses.color_pair(1))
 
 
 
 def wpm_test(stdscr):
-    target_test = "hellow world this is some text for this app"
+    target_text = "hellow world this is some text for this app"
     current_text = []
-    
-    
     
     while True:
         stdscr.clear()
-        
-
+        display_text(stdscr, target_text, current_text)
         stdscr.refresh()
-
         key = stdscr.getkey()
         
         if ord(key) == 27:
@@ -48,9 +45,6 @@ def wpm_test(stdscr):
 
 
         
-
-
-
 def main(stdscr):
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
